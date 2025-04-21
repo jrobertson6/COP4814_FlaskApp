@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Results</title>
+    <!-- Link to local CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="container">
+    <h2>Verification Results</h2>
+
+    <!-- Display verification results in a table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Valid</th>
+                <th>Country</th>
+                <th>Location</th>
+                <th>Carrier</th>
+                <th>Line Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.number }}</td>
+                <td>{{ result.valid }}</td>
+                <td>{{ result.country_name }}</td>
+                <td>{{ result.location }}</td>
+                <td>{{ result.carrier }}</td>
+                <td>{{ result.line_type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Download results as CSV -->
+    <form action="/download" method="POST">
+        <input type="hidden" name="csv_data" value='{{ results | tojson | safe }}'>
+        <button type="submit" class="btn">Download CSV</button>
+    </form>
+</body>
+</html>
